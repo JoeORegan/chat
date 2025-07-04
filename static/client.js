@@ -9,10 +9,18 @@ var userList = [];
 var socket = io({ transports: ["websocket"], upgrade: false });
 
 var nameInput = document.getElementById("txtName");
-nameInput.addEventListener("keypress", function (event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
+nameInput.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") {
+    e.preventDefault();
     document.getElementById("btnSendName").click();
+  }
+});
+
+var messageInput = document.getElementById("txtMessage");
+messageInput.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    document.getElementById("btnSendMessage").click();
   }
 });
 
