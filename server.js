@@ -9,9 +9,8 @@ socketio = require("socket.io");
 var port = process.env.PORT || 3000;
 var app = express();
 var server = http.createServer(app);
-var io = require("socket.io").listen(server);
+var io = require("socket.io")(server);
 
-const blink = "\x1b[5m";
 const red = "\x1b[31m";
 const green = "\x1b[32m";
 const blue = "\x1b[34m";
@@ -98,7 +97,6 @@ io.on("connection", (socket) => {
 
 server.listen(port);
 
-console.log("\033[32;5mPress ENTER\033[0m");
 console.log(
   `${red}   ___  ___________  ${blue} _____ _           _   
 ${red}  |_  ||  _  | ___ \\${blue} /  __ \\ |         | |  
