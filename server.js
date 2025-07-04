@@ -11,13 +11,22 @@ var app = express();
 var server = http.createServer(app);
 var io = require("socket.io").listen(server);
 
+const blink = "\x1b[5m";
+const red = "\x1b[31m";
+const green = "\x1b[32m";
+const blue = "\x1b[34m";
+const white = "\x1b[37m";
+const magenta = "\x1b[35m";
+const cyan = "\x1b[36m";
+const reset = "\x1b[0m";
+
 app.use(express.static("static"));
 
 var users = [];
 
 io.on("connection", (socket) => {
   //socket.broadcast.emit('user.events', {name: 'system', message: 'Someone has joined!'});
-  console.log("New User Connected");
+  console.log(green + "New User Connected" + reset);
 
   socket.on("newuser", (data) => {
     console.log("new connection from ");
@@ -75,15 +84,31 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", function () {
-    console.log("User has disconnected / reset connection");
+    console.log(red + "User has disconnected / reset connection" + reset);
 
     if (users.length > 0) {
       socket.broadcast.emit("user.events", {
         name: "system",
         message: "Someone has left the chat!",
       });
+      console.log(red + "Someone has left the chat!" + reset);
     }
   });
 });
 
 server.listen(port);
+
+console.log("\033[32;5mPress ENTER\033[0m");
+console.log(
+  `${red}   ___  ___________  ${blue} _____ _           _   
+${red}  |_  ||  _  | ___ \\${blue} /  __ \\ |         | |  
+${red}    | || | | | |_/ /${blue} | /  \\/ |__   __ _| |_ 
+${red}    | || | | |    / ${blue} | |   | '_ \\ / _\` | __|
+${red}/\\__/ /\\ \\_/ / |\\ \\ ${blue} | \\__/\\ | | | (_| | |_ 
+${red}\\____/  \\___/\\_| \\_| ${blue} \\____/_| |_|\\__,_|\\__|${reset}`
+);
+
+console.log(
+  white + "Server running at " + magenta + "http://localhost:" + port + reset
+);
+console.log("Press " + cyan + "Ctrl+C" + reset + " to stop the server");
