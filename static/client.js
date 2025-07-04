@@ -139,30 +139,30 @@ socket.on("user.events", (data) => {
 
 socket.on("message", (data) => addMessage(data.name, data.message, "left"));
 
-socket.on("update-user-list", (data) => {
+socket.on("update-user-list", (users) => {
   var list = document.getElementById("userList");
 
-  // Clear current user list
+  // Clear current Client Side user list
   while (list.hasChildNodes()) {
     list.removeChild(list.firstChild);
   }
 
   // Update list
-  for (var i = 0; i < data.length; i++) {
+  for (var i = 0; i < users.length; i++) {
     //	var listItem = document.createElement('li');
     //	//listItem.appendChild(document.createTextNode(data[i]));	// username text to display
     //	listItem.appendChild(document.createTextNode('test'));	// username text to display
     //	list.appendChild(listItem);
     //console.log
-    addToList(data[i]);
+    addToList(users[i]);
   }
 });
 
-function addToList(item) {
+function addToList(user) {
   var list = document.getElementById("userList");
   var listItem = document.createElement("li");
   //listItem.appendChild(document.createTextNode(data[i]));	// username text to display
-  listItem.appendChild(document.createTextNode(item)); // username text to display
+  listItem.appendChild(document.createTextNode(user)); // username text to display
   list.appendChild(listItem);
 }
 

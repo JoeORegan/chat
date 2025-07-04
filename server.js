@@ -82,15 +82,15 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("message", data); // broadcast to everyone except this
   });
 
-  socket.on("disconnect", function () {
+  socket.on("disconnect", function (data) {
     console.log(red + "User has disconnected / reset connection" + reset);
+    // console.log(data);
 
     if (users.length > 0) {
       socket.broadcast.emit("user.events", {
         name: "system",
         message: "Someone has left the chat!",
       });
-      console.log(red + "Someone has left the chat!" + reset);
     }
   });
 });
