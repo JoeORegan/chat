@@ -116,7 +116,7 @@ document.getElementById("btnSendName").addEventListener("click", (e) => {
     });
   }
 
-  messageInput.focus();
+  messageInput.focus(); // Change focus back to message input box
 
   currentUser = username; // *** Verify on server
 
