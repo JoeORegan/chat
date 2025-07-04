@@ -8,11 +8,11 @@ var userList = [];
 
 var socket = io({ transports: ["websocket"], upgrade: false });
 
-var nameInput = document.getElementById("nameIn");
+var nameInput = document.getElementById("txtName");
 nameInput.addEventListener("keypress", function (event) {
   if (event.key === "Enter") {
     event.preventDefault();
-    document.getElementById("sendNameBtn").click();
+    document.getElementById("btnSendName").click();
   }
 });
 
@@ -62,7 +62,7 @@ var addMessage = (username, message, messageType) => {
 };
 
 // send value from input box
-document.getElementById("message").addEventListener("click", (e) => {
+document.getElementById("btnSendMessage").addEventListener("click", (e) => {
   //var username = document.getElementById("name").value;
 
   console.log("current user: " + currentUser);
@@ -73,7 +73,7 @@ document.getElementById("message").addEventListener("click", (e) => {
     return;
   }
 
-  var messageText = document.getElementById("messagetext").value;
+  var messageText = document.getElementById("txtMessage").value;
 
   if (messageText) {
     socket.emit("message", {
@@ -83,16 +83,17 @@ document.getElementById("message").addEventListener("click", (e) => {
     });
 
     addMessage(
-      document.getElementById("nameIn").value,
-      document.getElementById("messagetext").value,
+      document.getElementById("txtName").value,
+      document.getElementById("txtMessage").value,
       "right"
     ); // add message client side
     lastActiveUser = ""; // reset the last active user so name appears
+    document.getElementById("txtMessage").value = ""; // reset text
   }
 });
 
-document.getElementById("sendNameBtn").addEventListener("click", (e) => {
-  var username = document.getElementById("nameIn").value;
+document.getElementById("btnSendName").addEventListener("click", (e) => {
+  var username = document.getElementById("txtName").value;
 
   if (!username) {
     alert("Please enter a username to proceed");
@@ -113,7 +114,7 @@ document.getElementById("sendNameBtn").addEventListener("click", (e) => {
   currentUser = username; // *** Verify on server
 
   document.getElementById("usernamedets").innerText = "Username: " + username;
-  document.getElementById("nameIn").value = "";
+  document.getElementById("txtName").value = "";
 });
 
 socket.on("user.events", (data) => {
