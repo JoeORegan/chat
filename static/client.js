@@ -2,13 +2,14 @@
 	Joe O'Regan
 	30/01/2019
 */
+const nameInput = document.getElementById("txtName");
+const messageInput = document.getElementById("txtMessage");
 var lastActiveUser = "";
 var currentUser = "";
 var userList = [];
 
 var socket = io({ transports: ["websocket"], upgrade: false });
 
-var nameInput = document.getElementById("txtName");
 nameInput.addEventListener("keypress", function (e) {
   if (e.key === "Enter") {
     e.preventDefault();
@@ -16,7 +17,6 @@ nameInput.addEventListener("keypress", function (e) {
   }
 });
 
-var messageInput = document.getElementById("txtMessage");
 messageInput.addEventListener("keypress", function (e) {
   if (e.key === "Enter") {
     e.preventDefault();
@@ -72,7 +72,6 @@ var addMessage = (username, message, messageType) => {
 // send value from input box
 document.getElementById("btnSendMessage").addEventListener("click", (e) => {
   //var username = document.getElementById("name").value;
-
   console.log("current user: " + currentUser);
 
   //if (!username) {
@@ -81,7 +80,7 @@ document.getElementById("btnSendMessage").addEventListener("click", (e) => {
     return;
   }
 
-  var messageText = document.getElementById("txtMessage").value;
+  var messageText = messageInput.value;
 
   if (messageText) {
     socket.emit("message", {
@@ -90,18 +89,15 @@ document.getElementById("btnSendMessage").addEventListener("click", (e) => {
       message: messageText,
     });
 
-    addMessage(
-      document.getElementById("txtName").value,
-      document.getElementById("txtMessage").value,
-      "right"
-    ); // add message client side
+    addMessage(nameInput.value, messageInput.value, "right"); // add message client side
     lastActiveUser = ""; // reset the last active user so name appears
-    document.getElementById("txtMessage").value = ""; // reset text
+    messageInput.value = ""; // reset text
+    messageInput.focus(); // Change focus back to message input box
   }
 });
 
 document.getElementById("btnSendName").addEventListener("click", (e) => {
-  var username = document.getElementById("txtName").value;
+  var username = nameInput.value;
 
   if (!username) {
     alert("Please enter a username to proceed");
@@ -112,6 +108,7 @@ document.getElementById("btnSendName").addEventListener("click", (e) => {
     socket.emit("newuser", {
       name: username,
     });
+    document.getElementById("btnSendName").innerText = "Update Username";
   } else {
     socket.emit("updateuser", {
       oldname: currentUser,
@@ -119,10 +116,12 @@ document.getElementById("btnSendName").addEventListener("click", (e) => {
     });
   }
 
+  messageInput.focus();
+
   currentUser = username; // *** Verify on server
 
   document.getElementById("usernamedets").innerText = "Username: " + username;
-  document.getElementById("txtName").value = "";
+  nameInput.value = "";
 });
 
 socket.on("user.events", (data) => {
