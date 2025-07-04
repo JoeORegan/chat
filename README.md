@@ -8,7 +8,8 @@ Simple chat application using JavaScript and Node.js
 
 ![Simple Chat Application](https://raw.githubusercontent.com/joeaoregan/NodeJS-AppsAndTutorials/master/Screenshots/screenshot3.jpg "Simple Chat Application")
 
-- [See App On Heroku](https://chat-jor.herokuapp.com/)
+- [See App On Render](https://jor-chat.onrender.com "Go to Chat App on Render")
+- ~~[See App On Heroku](https://chat-jor.herokuapp.com/ "Broken Link")~~
 
 ## Instructions
 
